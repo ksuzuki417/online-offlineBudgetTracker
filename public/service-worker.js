@@ -1,9 +1,9 @@
-console.log("Hello! This is service worker!")
+console.log("Hello! This is service worker!");
 
 const FILES_TO_CACHE = [
     "/",
     "/index.html",
-    "/style.css",
+    "/styles.css",
     "manifest.webmanifest",
     "/index.js",
     "/db.js",
@@ -20,7 +20,7 @@ self.addEventListener("install", (event) => {
         caches
         .open(STATIC)
         .then(cache => {
-            console.log("Your fiels were pre-cached successfully");
+            console.log("Your files were pre-cached successfully");
             return cache.addAll(FILES_TO_CACHE);
         })
     );
@@ -73,8 +73,10 @@ self.addEventListener("fetch", function(event) {
 
     // if the request is not for the API, serve static assets using "offline-first" approach.
     event.respondWith(
-        caches.match(event.request).then(function(reponse) {
-            return response || fetch(event.request);
+        caches.open(STATIC).then(cache => {
+            return cache.match(event.request).then(response => {
+                return response || fetch(event.request);
+            });
         })
     );
 });
