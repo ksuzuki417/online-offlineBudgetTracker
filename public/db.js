@@ -30,7 +30,7 @@ function saveRecord(record) {
 
     // add record to your store with add method.
     store.add(record);
-}
+};
 
 function checkDatabase() {
     // open a transaction on your pending db
